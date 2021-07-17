@@ -1,0 +1,30 @@
+{% extends 'costomer_base.html' %}
+
+{% block active_contactus_page %}active{% endblock active_contactus_page %}
+
+{% block contactus_page %}
+<br><br>
+<div class="container">
+    <div class="row">
+        <form action="boss/customer_query_input">
+            <div class="col-12">
+                <div class="mb-3">
+                    <h5><label for="email_address" class="form-label">Type your Email address!</label></h5>
+                    <input type="email" class="form-control" id="email_address" name="email_address"
+                        placeholder="name@example.com">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="mb-3">
+                    <h5><label for="customer_query" class="form-label">Type your query!</label></h5>
+                    <textarea class="form-control" id="customer_query" name="customer_query" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="col-4">
+                <button type="submit" class="btn btn-dark">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+<br><br><br><br><br><br><br><br><br><br>
+{% endblock contactus_page %}

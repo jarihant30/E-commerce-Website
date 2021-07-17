@@ -1,0 +1,86 @@
+{% extends 'costomer_base.html' %}
+
+{% block costomer_profile %}
+<br>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="card mb-3 container" >
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img style='height:300px' src="{{costomer_data.costomer_img.url}}" class="card-img-top" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h3 class="card-title">{{costomer_data.full_name}}</h3>
+            <p class="card-text">{{costomer_data.address}}</p>
+            <B><p class="card-text">{{costomer_data.city}}, {{costomer_data.state}}</p></B>
+            <B><p class="card-text">{{costomer_data.phone_number}}</p></B>
+            <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col-12">
+      <div class="card mb-3" style="max-width: 5000px;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="{{costomer_data.costomer_img.url}}" alt="{{costomer_data.costomer_img}}">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{costomer_data.full_name}}</h5>
+              <p class="card-text">{{costomer_data.phone_number}}</p>
+              <p class="card-text">{{costomer_data.address}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <br>
+    <br>
+    <div class="col-12">
+      <p>Orders Placed</p>
+    </div>
+    <div class="col-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Item name </th>
+            <th scope="col">Date of purchase </th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price (per piece) </th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        {% for order in all_orders %}
+        <tbody>
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{order.costomer_name}}</td>
+            <td>{{order.order_date_time}}</td>
+            <td>{{order.quantity}}</td>
+            <td>{{order.product_price}}</td>
+            {% comment %} if order status is 0 means pending , 1 accept , -1 decline {% endcomment %}
+            {% if order.order_status == 0 %}
+            <td><strong>Pending</strong></td>
+            {% endif %}
+            {% if order.order_status == 1%}
+            <td><strong>Accepted</strong></td>
+            {% endif %}
+            {% if order.order_status == 2 %}
+            <td><strong>Decline</strong></td>
+            {% endif %}
+          </tr>
+        </tbody>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+{% endblock costomer_profile %}

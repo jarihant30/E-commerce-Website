@@ -1,0 +1,69 @@
+{% extends 'costomer_base.html' %}
+
+{% block buy_orders %}
+
+<div class="container"> 
+    <div class="row">
+        <form action="place_order" method="POST">
+        <div class="col-12">
+            <div class="mb-3">
+                <label for="product_name" class="form-label ">Product Name </label>
+                <input type="text" class="form-control" value="{{product.product_name}}" id="product_name" name= "product_name" placeholder="{{product.product_name}}" readonly="true">
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label for="shop_name" class="form-label">Shop Name </label>
+                <input type="text" class="form-control" value="{{product.shop_name}}" id="shop_name" name="shop_name" placeholder="{{product.shop_name}}" readonly="true">
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label for="product_description" class="form-label">Product Description </label>
+                <input type="text" class="form-control" value="{{product.product_description}}" id="product_description" name="product_description" placeholder="{{product.product_description}}" readonly="true">
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label for="user_name" class="form-label">Customer Name </label>
+                <input type="text" class="form-control" value="{{costomer_data.full_name}}" id="user_name" name="user_name" placeholder="{{costomer_data.full_name}}" readonly="true">
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label for="price" class="form-label">Price </label>
+                <input type="text" class="form-control" id="price" name="price" value="{{product.product_price}}" placeholder="{{product.product_price}}" readonly="true" >
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label for="quantity" class="form-label">Quantity</label>
+                <input type="number" class="form-control" id="quantity" name="quantity">
+            </div>
+        </div>
+        {% comment %} <div class="col-12">
+            <div class="mb-3">
+                <label for="user_phone_number" class="form-label">Customer's Permanent Phone Number </label>
+                <input type="text" class="form-control" value="{{costomer_data.phone_number}}" id="user_phone_number" name="user_phone_number" placeholder="{{costomer_data.phone_number}}" disabled>
+            </div>
+        </div> {% endcomment %}
+        <div class="col-12">
+            <div class="mb-3">
+                <label for="user_phone_number" class="form-label">Receiving Customer's Phone Number </label>
+                <input type="text" class="form-control" value="{{costomer_data.phone_number}}" id="user_phone_number" name="user_phone_number" placeholder="{{costomer_data.phone_number}}">
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="mb-3">
+                <label for="delivery_address" class="form-label">Delivery Address</label>
+                <input type="text" class="form-control" value="{{costomer_data.address}}, city : {{city}}, state : {{state}}, land mark : {{costomer_data.land_mark}}, Pincode : {{costomer_data.zip_code}}" id="delivery_address" name="delivery_address" placeholder="{{costomer_data.address}}">
+            </div>
+        </div>
+         {% csrf_token %}
+        <button type="submit" class="btn btn-dark">Place Order</button>
+    </form>
+    </div>
+    <br><br><br><br><br>
+</div>
+
+{% endblock buy_orders %}

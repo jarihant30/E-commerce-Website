@@ -1,0 +1,70 @@
+{% extends 'seller_base.html' %}
+{% block seller_url_id %} {% url 'home_page' id %} {% endblock seller_url_id %}
+{% block seller_url_order_id %} {% url 'order_page' id %} {% endblock seller_url_order_id %}
+{% block seller_url_contact_id %}{% url 'contact_seller' id %}{% endblock seller_url_contact_id %}
+{% block seller_order_page %}
+
+<br>
+<br>
+
+<div class="container">
+<div class="d-flex justify-content-between">
+  <h2 >
+    <strong>Order Receive</strong>
+  </h2>
+  <a href="{% url 'home_page' id  %}"><button type="button" class="btn btn-dark">Back to Home</button></a>
+</div>
+  <br>
+  <br>
+  <div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Customer name</th>
+          <th scope="col">Customer mobile NO.</th>
+          <th scope="col">Product name </th>
+          <th scope="col">Quantity </th>
+          <th scope="col">Address</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      {% for orders in seller_orders %}
+      <tbody>
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{orders.costomer_name}}</td>
+          <td>{{orders.seller_name}}</td>
+          <td>{{orders.order_date_time}}</td>
+          <td>{{orders.id}}</td>
+          <td>{{orders.costomer_phone_number}}</td>
+          <td>
+            {% if orders.order_status == 0 %}
+            <form action="{% url 'accept_order' orders.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-dark">Accept</button>
+            </form>
+            <form action="{% url 'delete_order' orders.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-dark">Delete</button>
+            </form>
+            {% else %}
+            {% if orders.order_status == 1%}
+          <td><strong>Accepted</strong></td>
+          {% endif %}
+          {% if orders.order_status == 2 %}
+          <td><strong>Decline</strong></td>
+          {% endif %}
+          {% endif %}
+          </td>
+        </tr>
+      </tbody>
+      {% endfor %} 
+    </table>
+  </div>
+</div>
+<br>
+    <br>
+    <br>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+{% endblock seller_order_page %}

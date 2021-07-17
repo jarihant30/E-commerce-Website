@@ -1,0 +1,104 @@
+{% extends 'costomer_base.html' %}
+
+{% load static %}
+
+{% block active_shop_page %} active {% endblock active_shop_page %}
+
+{% block shop_list_layout %}
+
+<script type="text/javascript">
+    var citiesByState = {
+        Rajasthan: ["Chittorgarh", "Udaipur", "Hanumangarh", "Jaipur"],
+        Uttar_Pradesh: ["Varanasi", "Kanpur", "Lucknow"],
+        Punjab: ["Amritsar", "Abohar", "Patiyala"],
+        Maharashtra: ["Mumbai", "Pune", "Nagpur"],
+        Kerala: ["kochi", "Trichi", "Kollam"],
+        Aasaam: ["Guwahati"]
+    }
+    function makeSubmenu(value) {
+        if (value.length == 0) document.getElementById("city_select").innerHTML = "<option></option>";
+        else {
+            var citiesOptions = "";
+            for (cityId in citiesByState[value]) {
+                citiesOptions += "<option>" + citiesByState[value][cityId] + "</option>";
+            }
+            document.getElementById("city_select").innerHTML = citiesOptions;
+        }
+    }
+    function displaySelected() {
+        var country = document.getElementById("state_select").value;
+        var city = document.getElementById("city_select").value;
+        alert(country + "\n" + city);
+    }
+    function resetSelection() {
+        document.getElementById("state_select").selectedIndex = 0;
+        document.getElementById("city_select").selectedIndex = 0;
+    }
+</script>
+<br>
+<br>
+<br>
+<div class="container ">
+    <div class="d-flex justify-content-center">
+        <form action="input_state" method="POST">
+            <select id="state_select" name="state_select" size="1" onchange="makeSubmenu(this.value)">
+                <option value="" disabled selected>--- Choose State ---</option>
+                <option>Rajasthan</option>
+                <option>Maharashtra</option>
+                <option>Uttar_Pradesh</option>
+                <option>Punjab</option>
+                <option>Maharashtra</option>
+                <option>Kerala</option>
+                <option>Aasaam</option>
+            </select>
+            <select id="city_select" name="city_select" size="1">
+                <option value="" disabled selected>--- Choose City ---</option>
+                <option></option>
+            </select>
+            {% csrf_token %}
+            <button type="submit" class="btn btn-dark btn-sm">submit</button>
+        </form>
+    </div>
+    
+    <br>
+    <br>
+
+    <div class="container">
+        <div class="row ">
+            <div class="col-12" >
+                {% for shop in all_shops %}
+                <div class="card mb-3 " >
+                    <div class="row g-0 ">
+                        <div class="col-xl-4 d-flex justify-content-between" style="margin-bottom: 1px;">
+                            <img style='height:250px; max-width:350px ' src="{{shop.seller_image.url}}" alt="...">
+                        </div>
+                        <div class="col-xl-8 ">
+                            <div class="card-body ">
+                                <div class="d-flex align-items-start flex-column bd-highlight mb-3">
+                                    <div class="p-2 bd-highlight">
+                                        <h4 class="card-title">{{shop.full_name}}</h4>
+                                        <I><p class="card-text">{{shop.shop_description}}</p></I>
+                                        <p>Address: {{shop.shop_address}},{{shop.zip_code}}</p>
+                                        <hr>
+                                        
+                                    </div>
+                                    <div class="mt-auto p-2 bd-highlight">
+                                    <B><p class="card-text ">Contact No: {{shop.phone_number}}</p></B>
+                                    
+                                        <B><p class="card-text ">{{shop.city}}, {{shop.state}}</p></B>
+                                        <B><p class="card-text">{{shop.shop_category}}</p></B>
+                                        <a href="{% url 'go_to_shop' shop.id %}" class="btn btn-primary">Go to shop</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <br><br><br>
+</div>
+
+{% endblock shop_list_layout %}

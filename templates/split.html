@@ -1,0 +1,387 @@
+{% extends 'seller_base.html' %}
+{% block split_login_registration %}
+
+<script type="text/javascript">
+    var citiesByState = {
+        Rajasthan: ["Chittorgarh", "Udaipur", "Hanumangarh", "Jaipur"],
+        Uttar_Pradesh: ["Varanasi", "Kanpur", "Lucknow"],
+        Punjab: ["Amritsar", "Abohar", "Patiyala"],
+        Maharashtra: ["Mumbai", "Pune", "Nagpur"],
+        Kerala: ["kochi", "Trichi", "Kollam"],
+        Aasaam: ["Guwahati"]
+    }
+    function makeSubmenu(value) {
+        if (value.length == 0) document.getElementById("input_city").innerHTML = "<option></option>";
+        else {
+            var citiesOptions = "";
+            for (cityId in citiesByState[value]) {
+                citiesOptions += "<option>" + citiesByState[value][cityId] + "</option>";
+            }
+            document.getElementById("input_city").innerHTML = citiesOptions;
+        }
+    }
+    function displaySelected() {
+        var country = document.getElementById("input_state").value;
+        var city = document.getElementById("input_city").value;
+        alert(country + "\n" + city);
+    }
+    function resetSelection() {
+        document.getElementById("input_state").selectedIndex = 0;
+        document.getElementById("input_city").selectedIndex = 0;
+    }
+</script>
+
+
+<div class="d-md-flex ">
+
+    <!-- First Half -->
+
+    <div class="col-md-6 ">
+        <div class="container">
+            <div class="row">
+                <h1 style="text-align:center;">Seller Registration</h1>
+                <br>
+                <form action="seller/seller_registration_page" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group" style="margin-bottom:10px">
+                        <label for="full_fame">Full Name</label>
+                        <input type="text" class="form-control" id="full_name" name="full_name"
+                            placeholder="Enter Your Name">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:10px">
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+                            placeholder="Enter email">
+                    </div>
+
+                    <div class="form-group" >
+                        <label for="phone_number">Contact Number</label>
+                        <input type="text" class="form-control" id="phone_number" name="phone_number"
+                            placeholder="Enter Your Contact Number">
+                    </div>
+                    <br>
+                    <div class="col-md-6">
+                        <select id="input_state" name="input_state" size="1" onchange="makeSubmenu(this.value)">
+                            <option value="" disabled selected>Choose State</option>
+                            <option>Rajasthan</option>
+                            <option>Maharashtra</option>
+                            <option>Uttar_Pradesh</option>
+                            <option>Punjab</option>
+                            <option>Maharashtra</option>
+                            <option>Kerala</option>
+                            <option>Aasaam</option>
+                        </select>
+                        <select id="input_city" name="input_city" size="1">
+                            <option value="" disabled selected>Choose City</option>
+                            <option></option>
+                        </select>
+                        {% comment %} <label for="state">State</label>
+                        <select name="input_state" id="input_state">
+                            <option>select state</option>
+                            {% for state in all_state %}
+                            <option>{{state}}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="city">City</label>
+                        <select name="input_city" id="input_city">
+                            <option>select city</option>
+                            {% for city in all_city %}
+                            <option>{{city}}</option>
+                            {% endfor %}
+                        </select> {% endcomment %}
+                    </div>
+                    <br>
+                    <div class="form-group" style="margin-bottom:10px">
+                        <label for="zip" class="form-label">Pin Code</label>
+                        <input type="text" class="form-control" id="zip" name="input_zip" placeholder="Enter Pin Code" required>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:10px">
+                        <label for="shop_address">Shop's Address</label>
+                        <input type="text" class="form-control" id="shop_address" name="shop_address"
+                            placeholder="Enter Shop's Address" required>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:10px">
+                        <label for="shop_cat">Category</label>
+                        <select class="form-control" id="shop_cat" name="shop_cat">
+                            <option>--Select Category--</option>
+                            <option>Grocery</option>
+                            <option>Bakery</option>
+                            <option>Clothes</option>
+                            <option>Stationery</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group" style="margin-bottom:10px">
+                        <label for="image">Upload Shop Image</label><br>
+                        <input type="file" class="form-control-file" id="seller_image" name="seller_image">
+                    </div>
+
+
+                    <div class="form-group" style="margin-bottom:10px">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password"
+                            placeholder="Enter Your Password">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:10px">
+                        <label for="confirm_password">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password"
+                            placeholder="Confirm Your Password">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="shop_description" class="form-label">Describe your shop</label>
+                        <textarea class="form-control" id="shop_description" name="shop_description"
+                            rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <br>
+                    <br>
+                    <br>
+                </form>
+            </div>
+        </div> 
+
+    </div>
+
+    <!-- Second Half -->
+
+    <div class="d-flex align-content-around flex-wrap justify-content-center col-md-6 container-fluid">
+
+        <form action="seller/login" method="POST">
+            <h1>Seller Login</h1>
+            <br>
+            <div class="mb-3">
+                <label for="login_username" class="form-label">User name</label>
+                <input type="text" class="form-control" id="login_username" aria-describedby="username"
+                    name="login_username">
+                <div id="username" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="login_password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="login_password" name="login_password">
+            </div>
+            {% csrf_token %}
+            <div class="col-12" style="margin-top:10px">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="container-fluid h-100">
+
+
+    <div class="row  h-100">
+      
+        <div class="col-sm-6 col-2 h-100 align-items-center justify-content-center" id="left">
+           <br>
+           
+            <h4>I Scroll</h4>
+            <p>Sriracha biodiesel taxidermy organic post-ironic, Intelligentsia salvia mustache 90's code editing
+                brunch. Butcher polaroid VHS art party, hashtag Brooklyn deep v PBR narwhal sustainable mixtape swag
+                wolf squid tote bag. Tote bag cronut semiotics,
+                raw denim deep v taxidermy messenger bag. Tofu YOLO Etsy, direct trade ethical Odd Future jean shorts
+                paleo. Forage Shoreditch tousled aesthetic irony, street art organic Bushwick artisan cliche semiotics
+                ugh synth chillwave meditation.
+                Shabby chic lomo plaid vinyl chambray Vice. Vice sustainable cardigan, Williamsburg master cleanse hella
+                DIY 90's blog.</p>
+
+            <p>Ethical Kickstarter PBR asymmetrical lo-fi. oreamcatcher street art Carles, stumptown gluten-free
+                Kickstarter artisan Wes Anderson wolf pug. Godard sustainable you probably haven't heard of them, vegan
+                farm-to-table Williamsburg slow-carb
+                readymade disrupt deep v. Meggings seitan Wes Anderson semiotics, cliche American Apparel whatever.
+                Helvetica cray plaid, vegan brunch Banksy leggings +1 direct trade. Wayfarers codeply PBR selfies. Banh
+                mi McSweeney's Shoreditch selfies,
+                forage fingerstache food truck occupy YOLO Pitchfork fixie iPhone fanny pack art party Portland.</p>
+
+            <p>Sriracha biodiesel taxidermy organic post-ironic, Intelligentsia salvia mustache 90's code editing
+                brunch. Butcher polaroid VHS art party, hashtag Brooklyn deep v PBR narwhal sustainable mixtape swag
+                wolf squid tote bag. Tote bag cronut semiotics,
+                raw denim deep v taxidermy messenger bag. Tofu YOLO Etsy, direct trade ethical Odd Future jean shorts
+                paleo. Forage Shoreditch tousled aesthetic irony, street art organic Bushwick artisan cliche semiotics
+                ugh synth chillwave meditation.
+                Shabby chic lomo plaid vinyl chambray Vice. Vice sustainable cardigan, Williamsburg master cleanse hella
+                DIY 90's blog.</p>
+
+
+
+
+
+
+
+        </div>
+
+        
+
+        <div class="col-sm-6 invisible col-2">
+            
+        </div>
+        <div class="col offset-2 offset-sm-6">
+            <script type="text/javascript">
+                var citiesByState = {
+                    Rajasthan: ["Chittorgarh", "Udaipur", "Hanumangarh", "Jaipur"],
+                    Uttar_Pradesh: ["Varanasi", "Kanpur", "Lucknow"],
+                    Punjab: ["Amritsar", "Abohar", "Patiyala"],
+                    Maharashtra: ["Mumbai", "Pune", "Nagpur"],
+                    Kerala: ["kochi", "Trichi", "Kollam"],
+                    Aasaam: ["Guwahati"]
+                }
+                function makeSubmenu(value) {
+                    if (value.length == 0) document.getElementById("input_city").innerHTML = "<option></option>";
+                    else {
+                        var citiesOptions = "";
+                        for (cityId in citiesByState[value]) {
+                            citiesOptions += "<option>" + citiesByState[value][cityId] + "</option>";
+                        }
+                        document.getElementById("input_city").innerHTML = citiesOptions;
+                    }
+                }
+                function displaySelected() {
+                    var country = document.getElementById("input_state").value;
+                    var city = document.getElementById("input_city").value;
+                    alert(country + "\n" + city);
+                }
+                function resetSelection() {
+                    document.getElementById("input_state").selectedIndex = 0;
+                    document.getElementById("input_city").selectedIndex = 0;
+                }
+            </script>
+
+            <div class="container">
+                <div class="row">
+                    <form action="seller_registration_page" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="full_fame">Full Name</label>
+                            <input type="text" class="form-control" id="full_name" name="full_name"
+                                placeholder="Enter Your Name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                aria-describedby="emailHelp" placeholder="Enter email">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone_number">Contact Number</label>
+                            <input type="text" class="form-control" id="phone_number" name="phone_number"
+                                placeholder="Enter Your Contact Number">
+                        </div>
+                        <br>
+                        <div class="col-md-6">
+                            <select id="input_state" name="input_state" size="1" onchange="makeSubmenu(this.value)">
+                                <option value="" disabled selected>Choose State</option>
+                                <option>Rajasthan</option>
+                                <option>Maharashtra</option>
+                                <option>Uttar_Pradesh</option>
+                                <option>Punjab</option>
+                                <option>Maharashtra</option>
+                                <option>Kerala</option>
+                                <option>Aasaam</option>
+                            </select>
+                            <select id="input_city" name="input_city" size="1">
+                                <option value="" disabled selected>Choose City</option>
+                                <option></option>
+                            </select>
+                            {% comment %} <label for="state">State</label>
+                            <select name="input_state" id="input_state">
+                                <option>select state</option>
+                                {% for state in all_state %}
+                                <option>{{state}}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="city">City</label>
+                            <select name="input_city" id="input_city">
+                                <option>select city</option>
+                                {% for city in all_city %}
+                                <option>{{city}}</option>
+                                {% endfor %}
+                            </select> {% endcomment %}
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="zip" class="form-label">Zip</label>
+                            <input type="text" class="form-control" id="zip" name="input_zip" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="shop_address">Shop's Address</label>
+                            <input type="text" class="form-control" id="shop_address" name="shop_address"
+                                placeholder="Enter Shop's Address">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="shop_cat">Category</label>
+                            <select class="form-control" id="shop_cat" name="shop_cat">
+                                <option>--Select Category--</option>
+                                <option>Grocery</option>
+                                <option>Bakery</option>
+                                <option>Clothes</option>
+                                <option>Stationery</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="image">Upload Shop Image</label><br>
+                            <input type="file" class="form-control-file" id="seller_image" name="seller_image">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Enter Your Password">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirm_password">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password"
+                                placeholder="Confirm Your Password">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="shop_description" class="form-label">describe your shop</label>
+                            <textarea class="form-control" id="shop_description" name="shop_description"
+                                rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+
+        </div>
+    </div>
+</div> -->
+{% endblock split_login_registration %}
