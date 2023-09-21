@@ -16,8 +16,8 @@ class city(models.Model):
         return self.city_name
 
 class customer(models.Model): 
-    full_name = models.CharField(max_length=50)
-    phone_number = models.CharField(max_length=15)
+    full_name = models.CharField(max_length=15)
+    phone_number = models.CharField(max_length=50)
     email = models.EmailField(max_length=100)
     password = models.CharField(max_length=50)
     confirm_password = models.CharField(max_length=50)

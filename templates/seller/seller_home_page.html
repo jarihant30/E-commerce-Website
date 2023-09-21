@@ -18,10 +18,10 @@
         <div class="card-body">
           <h3 class="card-title">{{seller_name}}</h3>
           <p class="card-text">{{seller_name.shop_description}}</p>
-          <p>Address: {{seller_name.shop_address}},{{seller_name.zip_code}}</p>
+          <p>Address: {{seller_name.shop_address}}</p>
           <hr>
           <B><p class="card-text ">Contact No: {{seller_name.phone_number}}</p></B>
-          <B><p class="card-text">{{seller_name.city}}, {{seller_name.state}}</p></B>
+          <B><p class="card-text">{{seller_name.city}}, {{seller_name.state}},{{seller_name.zip_code}}</p></B>
           <B><p class="card-text">{{seller_name.shop_category}}</p></B>
           <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
         </div>
@@ -41,7 +41,7 @@
       </div>
     </div> -->
     {% for item in seller_product_id %}
-    <div class="col-3">
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
       <div class="card" style="margin-bottom: 10px" >
         <img style='height:200px' src="{{item.product_image.url}}" class="card-img-top" alt="...">
         <div class="card-body">
